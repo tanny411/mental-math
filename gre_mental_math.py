@@ -111,6 +111,23 @@ def appx_roots():
     txt = 'SQRT('+str(a)+') = ?'
     return txt, round(math.sqrt(a),2)
 
+def divisibility():
+    a = randint(1, 1000000)
+    b = randint(2,12)
+    q = a*b
+    c = randint(2,12)
+    choice = randint(0,2)
+    c = c*choice + b*(1-choice)
+    txt = 'Is '+str(q)+' divisible by '+str(c)+'?'
+    return txt, 'YES' if q%c==0 else'NO'
+
+
+
+
+
+
+
+
 def get_question():
     questions = [div, mult, adj_sq, sqr5, dbl_haf, div5, big_div, frac_dec, dec_frac, sort_frac, comp_frac, appx_roots]
     func = choice(questions)
@@ -119,7 +136,7 @@ def get_question():
 def run():
     print('Press enter for answer.\nEnter for the next question.\nQUIT after answering.\n\n')
     while True:
-        Q, A = get_question()
+        Q, A = divisibility() #get_question()
         print(Q)
         ptime = time.time()
         inp = input()
