@@ -2,6 +2,8 @@ import numpy as np
 from numpy.random import rand, randint, randn, choice
 import math
 import time
+from math import sqrt
+from itertools import count, islice
 
 ## divide by 5
 def div5():
@@ -121,6 +123,43 @@ def divisibility():
     txt = 'Is '+str(q)+' divisible by '+str(c)+'?'
     return txt, 'YES' if q%c==0 else'NO'
 
+def powers():
+    a = randint(2,16)
+    pow = randint(2,4)
+    is_root = randint(0,2)
+    if is_root:
+        if pow==2:
+            term = 'SQRT'
+            val = a*a
+        else:
+            term = 'CUBEROOT'
+            val = a*a*a
+
+        txt = term+'('+str(val)+') = ?'
+        return txt, a
+    else:
+        ans = a*a if pow==2 else a*a*a
+        txt = 'What is '+str(a)+'^'+str(pow)+'?'
+        return txt, ans
+
+def is_prime(n=0, gen=True):
+    if gen:
+        ## give only odd numbers
+        n = randint(1,101)
+        if n%2 == 0:
+            n -= 1
+    ans = n > 1 and all(n % i for i in islice(count(2), int(sqrt(n)-1)))
+    txt = str(n)+' is  prime?'
+    return txt, ans
+
+def prime():
+    hi = randint(2,11)
+    lo = randint(1,hi)
+    lo, hi = lo*10, hi*10
+    txt = 'How many primes between '+str(lo)+' and '+str(hi)+'?'
+    ans = sum([is_prime(x, False)[1] for x in range(lo, hi+1)])
+    return txt, ans
+    
 
 
 
@@ -129,14 +168,15 @@ def divisibility():
 
 
 def get_question():
-    questions = [div, mult, adj_sq, sqr5, dbl_haf, div5, big_div, frac_dec, dec_frac, sort_frac, comp_frac, appx_roots]
+    questions = [div, mult, adj_sq, sqr5, dbl_haf, div5, big_div, frac_dec, 
+                dec_frac, sort_frac, comp_frac, appx_roots, prime, is_prime, powers, divisibility]
     func = choice(questions)
     return func()
 
 def run():
     print('Press enter for answer.\nEnter for the next question.\nQUIT after answering.\n\n')
     while True:
-        Q, A = divisibility() #get_question()
+        Q, A = get_question()
         print(Q)
         ptime = time.time()
         inp = input()
